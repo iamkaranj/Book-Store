@@ -10,22 +10,29 @@
 
             <div class="form-inline d-flex align-items-center my-2 checkbox bg-light border mx-lg-2">
                 <select name="author" id="author" class="drowpdown bg-light" v-model="searchQueryAuthor" @change="fetchFilteredBooks">
-                    <option value="">Author</option>
+                    <option value="">-- Author --</option>
                     <option v-for="author in bookDropdownData.authors">{{author}}</option>
                 </select>
             </div>
 
             <div class="form-inline d-flex align-items-center my-2 checkbox bg-light border mx-lg-2">
-                <select name="publisher" id="publisher" class="drowpdown bg-light">
-                    <option value="">Publisher</option>
-                    <option v-for="publisher in bookDropdownData.publishers" v-bind:value="publisher">{{publisher}}</option>
+                <select name="publisher" id="publisher" class="drowpdown bg-light" v-model="searchQueryPublisher" @change="fetchFilteredBooks">
+                    <option value="">-- Publisher --</option>
+                    <option v-for="publisher in bookDropdownData.publishers">{{publisher}}</option>
                 </select>
             </div>
 
             <div class="form-inline d-flex align-items-center my-2 checkbox bg-light border mx-lg-2">
-                <select name="genre" id="genre" class="drowpdown bg-light">
-                    <option value="">Genre</option>
+                <select name="genre" id="genre" class="drowpdown bg-light" v-model="searchQueryGenre" @change="fetchFilteredBooks">
+                    <option value="">-- Genre --</option>
                     <option v-for="genre in bookDropdownData.genre">{{genre}}</option>
+                </select>
+            </div>
+
+            <div class="form-inline d-flex align-items-center my-2 checkbox bg-light border mx-lg-2">
+                <select name="isbn" id="isbn" class="drowpdown bg-light" v-model="searchQueryIsbn" @change="fetchFilteredBooks">
+                    <option value="">-- isbn --</option>
+                    <option v-for="isbn in bookDropdownData.isbn">{{isbn}}</option>
                 </select>
             </div>
         </div>
@@ -150,12 +157,12 @@ export default {
     methods: {
         async fetchFilteredBooks() {
             try {
-                console.log(this.searchQueryAuthor);
                 const response = await axios.get("/api/books", {
                     params: {
                         title: this.searchQueryTitle,
                         author: this.searchQueryAuthor,
                         isbn: this.searchQueryIsbn,
+                        genre: this.searchQueryGenre,
                         publisher: this.searchQueryPublisher,
                         page: this.currentPage,
                     },

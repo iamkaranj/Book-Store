@@ -31,12 +31,13 @@ class BookController extends Controller
     }
 
     public function getDropdownData(Request $request) {
-        $books = Book::select(['author', 'publisher', 'genre'])
+        $books = Book::select(['author', 'publisher', 'genre', 'isbn'])
         ->distinct()
         ->get()->toArray();
         $data['authors'] = array_column($books, 'author');
         $data['genre'] = array_column($books, 'genre');
         $data['publishers'] = array_column($books, 'publisher');
+        $data['isbn'] = array_column($books, 'isbn');
         return response()->json($data);
     }
 
